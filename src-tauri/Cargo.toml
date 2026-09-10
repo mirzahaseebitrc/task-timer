@@ -1,0 +1,22 @@
+[package]
+name = "task-timer"
+version = "0.1.0"
+description = "A lightweight cross-platform task countdown timer"
+authors = ["DigiHS"]
+edition = "2021"
+
+[lib]
+name = "task_timer_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-notification = "2"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

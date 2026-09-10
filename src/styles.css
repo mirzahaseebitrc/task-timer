@@ -1,0 +1,494 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f4f7ff;
+  background: #080c18;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --bg: #080c18;
+  --surface: #0f1628;
+  --surface-strong: #151f35;
+  --border: rgba(142, 164, 205, 0.16);
+  --text: #f4f7ff;
+  --muted: #8996b3;
+  --accent: #55e6dc;
+  --accent-strong: #2accc1;
+  --accent-glow: rgba(85, 230, 220, 0.22);
+  --purple: #8b7cff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 360px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(69, 99, 171, 0.2), transparent 44%),
+    var(--bg);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 520px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 28px 20px;
+}
+
+.app-header,
+.brand,
+.controls,
+.preference-row,
+.preference-copy {
+  display: flex;
+  align-items: center;
+}
+
+.app-header {
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.brand {
+  gap: 12px;
+}
+
+.brand-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(85, 230, 220, 0.25);
+  border-radius: 13px;
+  color: var(--accent);
+  background: linear-gradient(145deg, rgba(85, 230, 220, 0.15), rgba(85, 230, 220, 0.04));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+
+.brand-icon svg {
+  width: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+h1 {
+  margin: 0 0 2px;
+  font-size: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.brand p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.status-pill {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #aab5cc;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-pill.running {
+  border-color: rgba(85, 230, 220, 0.35);
+  color: var(--accent);
+  background: rgba(85, 230, 220, 0.08);
+}
+
+.status-pill.paused {
+  border-color: rgba(139, 124, 255, 0.35);
+  color: #aea5ff;
+  background: rgba(139, 124, 255, 0.08);
+}
+
+.task-section label {
+  display: block;
+  margin-bottom: 8px;
+  color: #aab5cc;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#taskName {
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  outline: none;
+  color: var(--text);
+  background: rgba(17, 25, 44, 0.78);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+#taskName::placeholder {
+  color: #5f6d88;
+}
+
+#taskName:focus {
+  border-color: rgba(85, 230, 220, 0.56);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(85, 230, 220, 0.08);
+}
+
+#taskName:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.timer-card {
+  margin-top: 18px;
+  padding: 24px 20px 19px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: linear-gradient(155deg, rgba(20, 30, 52, 0.92), rgba(11, 17, 31, 0.94));
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.24), inset 0 1px rgba(255, 255, 255, 0.025);
+}
+
+.progress-ring {
+  --progress: 0deg;
+  display: grid;
+  width: 224px;
+  height: 224px;
+  margin: 0 auto;
+  padding: 7px;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) var(--progress), rgba(123, 145, 188, 0.13) 0deg);
+  box-shadow: 0 0 34px var(--accent-glow);
+  transition: background 220ms linear, box-shadow 200ms ease;
+}
+
+.progress-ring.paused {
+  background: conic-gradient(var(--purple) var(--progress), rgba(123, 145, 188, 0.13) 0deg);
+  box-shadow: 0 0 30px rgba(139, 124, 255, 0.18);
+}
+
+.progress-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(160, 180, 218, 0.1);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #18243c, #0d1425 70%);
+}
+
+.time-display {
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-state {
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.time-editor {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.time-editor label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.time-editor input {
+  width: 64px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  color: var(--text);
+  background: rgba(7, 12, 23, 0.58);
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 16px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.time-editor input::-webkit-inner-spin-button,
+.time-editor input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.time-editor input:focus {
+  border-color: rgba(85, 230, 220, 0.55);
+}
+
+.time-editor input:disabled {
+  opacity: 0.55;
+}
+
+.time-editor label span {
+  color: #64718a;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.separator {
+  padding-top: 8px;
+  color: #687690;
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 18px;
+}
+
+.presets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-top: 17px;
+}
+
+.presets button {
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: #8592ad;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  transition: 150ms ease;
+}
+
+.presets button:hover:not(:disabled),
+.presets button.active {
+  border-color: rgba(85, 230, 220, 0.35);
+  color: var(--accent);
+  background: rgba(85, 230, 220, 0.08);
+}
+
+.presets button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.controls {
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.controls button {
+  display: flex;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 13px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform 140ms ease, filter 140ms ease, border-color 140ms ease;
+}
+
+.controls button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.controls svg {
+  width: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.secondary-button {
+  width: 36%;
+  border: 1px solid var(--border);
+  color: #aab5cc;
+  background: var(--surface);
+}
+
+.primary-button {
+  flex: 1;
+  border: 1px solid transparent;
+  color: #041311;
+  background: linear-gradient(135deg, #77f2e9, #35d5ca);
+  box-shadow: 0 10px 26px rgba(53, 213, 202, 0.18);
+}
+
+.primary-button:hover {
+  filter: brightness(1.05);
+}
+
+.primary-button.pause-mode {
+  color: #f6f4ff;
+  background: linear-gradient(135deg, #8e80ff, #7162e8);
+  box-shadow: 0 10px 26px rgba(113, 98, 232, 0.18);
+}
+
+.primary-button.pause-mode svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.preferences {
+  overflow: hidden;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(15, 22, 40, 0.72);
+}
+
+.preference-row {
+  position: relative;
+  min-height: 57px;
+  justify-content: space-between;
+  padding: 10px 13px;
+  cursor: pointer;
+}
+
+.preference-row + .preference-row {
+  border-top: 1px solid var(--border);
+}
+
+.preference-copy {
+  gap: 11px;
+}
+
+.preference-copy > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.preference-copy strong {
+  color: #cbd3e5;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.preference-copy small {
+  color: #66738d;
+  font-size: 9px;
+}
+
+.preference-icon {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--accent);
+  background: rgba(85, 230, 220, 0.07);
+  font-size: 14px;
+}
+
+.switch-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switch {
+  position: relative;
+  width: 36px;
+  height: 21px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #29334a;
+  transition: background 160ms ease;
+}
+
+.switch::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #8f9ab1;
+  content: "";
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.switch-input:checked + .switch {
+  background: rgba(85, 230, 220, 0.23);
+}
+
+.switch-input:checked + .switch::after {
+  transform: translateX(15px);
+  background: var(--accent);
+}
+
+.switch-input:focus-visible + .switch {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+footer {
+  margin-top: 14px;
+  color: #536078;
+  font-size: 9px;
+  text-align: center;
+}
+
+@media (max-height: 720px) {
+  .app-shell {
+    padding-top: 18px;
+  }
+
+  .app-header {
+    margin-bottom: 18px;
+  }
+
+  .timer-card {
+    padding-top: 16px;
+  }
+
+  .progress-ring {
+    width: 190px;
+    height: 190px;
+  }
+
+  .time-display {
+    font-size: 36px;
+  }
+}

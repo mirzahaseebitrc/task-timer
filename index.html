@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Task Timer</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M12 3h8M16 3v4M24.5 7.5l-2.2 2.2" />
+              <circle cx="16" cy="18" r="10" />
+              <path d="M16 12v6l4 2" />
+            </svg>
+          </span>
+          <div>
+            <h1>Task Timer</h1>
+            <p>Focus on one thing at a time</p>
+          </div>
+        </div>
+        <span class="status-pill" id="statusPill">Ready</span>
+      </header>
+
+      <section class="task-section" aria-labelledby="taskLabel">
+        <label id="taskLabel" for="taskName">What are you working on?</label>
+        <input
+          id="taskName"
+          type="text"
+          maxlength="80"
+          placeholder="e.g. 20-20 Eye Exercise"
+          autocomplete="off"
+        />
+      </section>
+
+      <section class="timer-card" aria-label="Countdown timer">
+        <div class="progress-ring" id="progressRing">
+          <div class="progress-inner">
+            <div class="time-display" id="timeDisplay" aria-live="polite">20:00</div>
+            <span class="timer-state" id="timerState">SET YOUR TIME</span>
+          </div>
+        </div>
+
+        <div class="time-editor" id="timeEditor">
+          <label>
+            <input id="hoursInput" type="number" min="0" max="23" value="0" inputmode="numeric" />
+            <span>HOURS</span>
+          </label>
+          <span class="separator">:</span>
+          <label>
+            <input id="minutesInput" type="number" min="0" max="59" value="20" inputmode="numeric" />
+            <span>MINUTES</span>
+          </label>
+          <span class="separator">:</span>
+          <label>
+            <input id="secondsInput" type="number" min="0" max="59" value="0" inputmode="numeric" />
+            <span>SECONDS</span>
+          </label>
+        </div>
+
+        <div class="presets" aria-label="Quick timer presets">
+          <button type="button" data-minutes="10">10 min</button>
+          <button type="button" data-minutes="20" class="active">20 min</button>
+          <button type="button" data-minutes="30">30 min</button>
+          <button type="button" data-minutes="60">60 min</button>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Timer controls">
+        <button type="button" class="secondary-button" id="resetButton" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M5.5 9A8 8 0 1 1 4 14" /></svg>
+          Reset
+        </button>
+        <button type="button" class="primary-button" id="startButton">
+          <svg id="startIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6Z" /></svg>
+          <span id="startButtonText">Start Timer</span>
+        </button>
+      </section>
+
+      <section class="preferences" aria-label="Timer preferences">
+        <label class="preference-row">
+          <span class="preference-copy">
+            <span class="preference-icon" aria-hidden="true">♪</span>
+            <span><strong>Sound</strong><small>Play an alert when time is up</small></span>
+          </span>
+          <input class="switch-input" id="soundToggle" type="checkbox" checked />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+        <label class="preference-row">
+          <span class="preference-copy">
+            <span class="preference-icon" aria-hidden="true">◉</span>
+            <span><strong>Desktop notification</strong><small>Notify even when minimized</small></span>
+          </span>
+          <input class="switch-input" id="notificationToggle" type="checkbox" checked />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+      </section>
+
+      <footer>Closing the window keeps the timer running in the system tray.</footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
